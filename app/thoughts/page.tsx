@@ -4,6 +4,7 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import { ThoughtCard } from "@/components/ui/thought-card";
 
 type Thought = {
   id: string;
@@ -108,92 +109,32 @@ export default function ThoughtsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Header */}
-      <header className="flex items-center justify-between gap-2">
+    <div className="w-full min-h-screen md:px-10">
+      <div className="w-full">
         <div>
-          <h1 className="text-2xl font-semibold">Your Thoughts</h1>
-          <p className="text-xs text-slate-400">
-            Add a headline and a paragraph for each thought.
-          </p>
+          <p className="text-md text-[#33b10c] ">WELCOME BACK</p>
+          <h1 className="text-4xl font-bold">Your Thoughts</h1>
         </div>
-        <button
-          onClick={handleLogout}
-          className="text-xs border border-slate-600 rounded px-3 py-1 hover:bg-slate-800"
-        >
-          Log out
-        </button>
-      </header>
-
-      {/* New thought form */}
-      <section className="border border-slate-700 rounded-lg p-4 space-y-3 bg-slate-900/40">
-        <h2 className="text-sm font-medium">Add a new thought</h2>
-
-        <form onSubmit={handleAddThought} className="space-y-3">
-          <input
-            type="text"
-            placeholder="Headline"
-            className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm outline-none focus:border-sky-500"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+      </div>
+      <div className="w-full min-h-screen mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* Add New Thought Card */}
+          <ThoughtCard
+            variant="add"
+            onClick={() => router.push("/add-thought")}
           />
 
-          <textarea
-            placeholder="Write your paragraph..."
-            className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm min-h-[120px] outline-none focus:border-sky-500"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-
-          {error && (
-            <p className="text-xs text-red-400 bg-red-950/30 border border-red-900 rounded px-3 py-2">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={saving}
-            className="rounded bg-sky-600 text-sm font-medium px-4 py-2 hover:bg-sky-500 disabled:opacity-60"
-          >
-            {saving ? "Saving..." : "Save thought"}
-          </button>
-        </form>
-      </section>
-
-      {/* Thoughts list */}
-      <section className="space-y-3">
-        <h2 className="text-sm font-medium">Previous thoughts</h2>
-
-        {loadingThoughts ? (
-          <p className="text-sm text-slate-400">Loading your thoughts...</p>
-        ) : thoughts.length === 0 ? (
-          <p className="text-sm text-slate-500">
-            You haven&apos;t written anything yet. Start with your first thought!
-          </p>
-        ) : (
-          <ul className="space-y-3">
-            {thoughts.map((t) => (
-              <li
-                key={t.id}
-                className="border border-slate-700 rounded-lg p-3 bg-slate-900/40"
-              >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <h3 className="font-medium text-sm">
-                    {t.title || "(No headline)"}
-                  </h3>
-                  <span className="text-[10px] text-slate-500">
-                    {new Date(t.created_at).toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-sm text-slate-200 whitespace-pre-wrap">
-                  {t.content}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+          {thoughts.map((thought) => (
+            <ThoughtCard
+              key={thought.id}
+              title={thought.title}
+              content={thought.content}
+              created_at={thought.created_at}
+              variant="content"
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
