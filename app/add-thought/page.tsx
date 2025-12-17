@@ -25,7 +25,7 @@ export default function AddThoughtPage() {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [tag, setTag] = useState(""); // not stored yet in DB, but kept for future use
+  // not stored yet in DB, but kept for future use
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -73,8 +73,8 @@ export default function AddThoughtPage() {
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col">
       {/* Top bar */}
-      <header className="w-full border-b border-[#2c3829]/40 px-6 py-4">
-        <div className="mx-auto max-w-4xl flex items-center justify-between gap-4">
+      <header className="w-full border-b border-[#2c3829]/40 px-6 py-4 ">
+        <div className="mx-auto w-full flex items-center justify-start gap-4 ">
           <button
             type="button"
             onClick={() => router.push("/thoughts")}
@@ -82,53 +82,45 @@ export default function AddThoughtPage() {
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <h1 className="text-lg font-semibold">New Thought</h1>
         </div>
       </header>
 
       {/* Main content */}
-      <main className="flex-1 px-6 py-8">
+      <main className="flex-1 px-0 py-4">
         <div className="mx-auto max-w-4xl">
-          <Card className="bg-[#1e2a1d] border-[#2c3829] rounded-3xl shadow-xl">
+          <Card className="bg-transparent rounded-3xl border-none shadow-none">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-white">
+              <CardTitle className="text-2xl font-bold text-[#8bf564] ">
                 Capture a new thought
               </CardTitle>
-              <CardDescription className="text-gray-400">
-                Give it a clear title and write what&apos;s on your mind.
-              </CardDescription>
             </CardHeader>
 
             <CardContent>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Title */}
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-gray-200">
-                    Title
-                  </Label>
-                  <Input
-                    id="title"
-                    type="text"
-                    placeholder="What’s on your mind?"
+                  <textarea
+                    id="body"
+                    rows={1}
+                    placeholder="What's on your mind?"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="bg-[#152111] border-[#41533c] text-white placeholder:text-gray-500 rounded-2xl h-12 focus:border-[#49e619] focus:ring-[#49e619]"
+                    required
+                    className="w-full  bg-transparent outline-none border-none text-3xl overflow-hidden font-bold text-gray-100 placeholder:text-[#4b6e3e] resize-none"
                   />
                 </div>
+                <div className="my-6 h-px w-full bg-green-500/30" />
 
                 {/* Body */}
                 <div className="space-y-2">
-                  <Label htmlFor="body" className="text-gray-200">
-                    Thought
-                  </Label>
                   <textarea
                     id="body"
-                    rows={8}
-                    placeholder="Start typing..."
+                    rows={10}
+                    placeholder="Start writing here ... let your thoughts flow freely"
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     required
-                    className="w-full rounded-2xl bg-[#152111] border border-[#41533c] px-4 py-3 text-sm text-gray-100 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#49e619] focus:border-[#49e619] resize-none"
+                    className="w-full bg-transparent outline-none border-none text-md text-gray-100 placeholder:text-[#4b6e3e] resize-none"
                   />
                 </div>
 
